@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - 404 Error</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #4cc9f0;
+            --accent: #7209b7;
+            --text-dark: #212529;
+            --text-light: #6c757d;
+            --danger: #e63946;
+            --success: #4caf50;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .element-1 {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .element-2 {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .element-3 {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .element-4 {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            right: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .error-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 60px 40px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+
+        .error-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .error-icon {
+            font-size: 120px;
+            color: var(--danger);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .error-description {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .search-box {
+            max-width: 400px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .helpful-links {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .helpful-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .link-item:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .link-item i {
+            font-size: 1.2rem;
+        }
+
+        .floating-404 {
+            position: absolute;
+            font-size: 10rem;
+            font-weight: 900;
+            opacity: 0.03;
+            color: var(--text-dark);
+            z-index: -1;
+        }
+
+        .floating-404-1 {
+            top: 10%;
+            left: 5%;
+            animation: drift 25s linear infinite;
+        }
+
+        .floating-404-2 {
+            bottom: 10%;
+            right: 5%;
+            animation: drift 30s linear infinite reverse;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(100px, 100px) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-title {
+                font-size: 2rem;
+            }
+            
+            .error-description {
+                font-size: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-card {
+                padding: 40px 20px;
+            }
+            
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.8rem;
+            }
+            
+            .error-icon {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+        <div class="floating-element element-4"></div>
+        <div class="floating-404 floating-404-1">404</div>
+        <div class="floating-404 floating-404-2">404</div>
+    </div>
+
+    <div class="container">
+        <div class="error-card">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">Page Not Found</h2>
+            
+            <p class="error-description">
+                Oops! The page you are looking for might have been removed, 
+                had its name changed, or is temporarily unavailable.
+            </p>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search our website...">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    Go to Homepage
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Go Back
+                </a>
+            </div>
+            
+            <div class="helpful-links">
+                <h3>Helpful Links</h3>
+                <div class="links-grid">
+                    <a href="#" class="link-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About Us</span>
+                    </a>
+                    <a href="#" class="link-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact Support</span>
+                    </a>
+                    <a href="#" class="link-item">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Site Map</span>
+                    </a>
+                    <a href="#" class="link-item">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple search functionality
+        document.querySelector('.search-button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-input').value;
+            if(searchTerm.trim() !== '') {
+                alert(`Searching for: ${searchTerm}`);
+            }
+        });
+
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                document.querySelector('.search-button').click();
+            }
+        });
+
+        // Back button functionality
+        document.querySelector('.btn-secondary').addEventListener('click', function(e) {
+            e.preventDefault();
+            if(document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.link-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
