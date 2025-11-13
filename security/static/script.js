@@ -149,26 +149,9 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 
     let isValid = true;
 
-    // === 1. Email tekshiruvi ===
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        showError('login-email-error', 'Iltimos, to‘g‘ri elektron pochta kiriting');
-        isValid = false;
-    } else {
-        hideError('login-email-error');
-    }
+    
 
-    // === 2. Parol uzunligini tekshirish ===
-    if (password.length < 6) {
-        showError('login-password-error', 'Parol kamida 6 ta belgidan iborat bo‘lishi kerak');
-        isValid = false;
-    } else {
-        hideError('login-password-error');
-    }
-
-    // === 3. Agar xatolik bo‘lsa — form yuborilmaydi ===
-    if (!isValid) return;
-
+    
     // === 4. Yuklanish animatsiyasi ===
     showLoading(loginButton);
 
@@ -234,29 +217,33 @@ function showToast(title, text, type) {
 
 
 // Register form qayta ishlash
-document.getElementById('register-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // muhim! sahifa darhol o'tmasligi uchun
+document.getElementById('register-password').addEventListener('input', function() {
+    const password = this.value;
+    const strengthIndicator = document.getElementById('password-strength-indicator');
+    const strengthText = document.getElementById('password-strength-text');
 
-    const name = document.getElementById('register-name').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const confirmPassword = document.getElementById('register-confirm-password').value;
-    const acceptTerms = document.getElementById('accept-terms').checked;
-    const registerButton = document.getElementById('register-button');
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/)) strength++;
+    if (password.match(/[^a-zA-Z\d]/)) strength++;
 
-    // Frontend validatsiya
-    let isValid = true;
-    if (name.length < 2) { showError('register-name-error','Ism kamida 2 ta'); isValid=false; } 
-    else { hideError('register-name-error'); }
-    if (!validateEmail(email)) { showError('register-email-error','Email xato'); isValid=false; } 
-    else { hideError('register-email-error'); }
-    if (!validatePassword(password)) { showError('register-password-error','Parol xato'); isValid=false; } 
-    else { hideError('register-password-error'); }
-    if (password !== confirmPassword) { showError('register-confirm-password-error','Parollar mos emas'); isValid=false; } 
-    else { hideError('register-confirm-password-error'); }
-    if (!acceptTerms) { showToast('Diqqat!','Shartlarni qabul qiling','warning'); isValid=false; }
+    strengthIndicator.className = 'password-strength-indicator'; // avval classni tozalash
 
-    if (!isValid) return; // xatolar bo‘lsa, sahifa o‘tmasin
+    if (strength <= 1) {
+        strengthIndicator.classList.add('strength-weak');
+        strengthText.textContent = 'Zaif parol';
+        strengthText.style.color = 'var(--danger-color)';
+    } else if (strength <= 3) {
+        strengthIndicator.classList.add('strength-medium');
+        strengthText.textContent = 'O‘rtacha parol';
+        strengthText.style.color = 'var(--warning-color)';
+    } else {
+        strengthIndicator.classList.add('strength-strong');
+        strengthText.textContent = 'Kuchli parol';
+        strengthText.style.color = 'var(--success-color)';
+    }
+
 
     // Agar hammasi to‘g‘ri bo‘lsa
     showLoading(registerButton);
@@ -266,7 +253,6 @@ document.getElementById('register-form').addEventListener('submit', function(e) 
         switchPage(registerPage, loginPage); // faqat endi sahifani o‘tkazamiz
         document.getElementById('register-form').reset();
     }, 1000);
-});
     // Yuklanish holatini ko'rsatish
     showLoading(registerButton);
     
@@ -289,6 +275,7 @@ document.getElementById('register-form').addEventListener('submit', function(e) 
             document.getElementById('password-strength-text').style.color = '';
         }, 1000);
     }, 2000);
+});
 
 // Real-time validatsiya
 document.querySelectorAll('.form-input').forEach(input => {

@@ -5,7 +5,7 @@ from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 
-def index(request):
+def index(request):# test sinov faqat login va register sahifalari
     if request.method == "POST":
         reg_form = RegisterForm(request.POST)
         if reg_form.is_valid():
@@ -51,19 +51,12 @@ def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            print("FORM VALID register")
-            form.save()
-            print(form.cleaned_data)
-        password = form.cleaned_data.get('password')
-        confirm_password = form.cleaned_data.get('confirm_password')
-        username = form.cleaned_data.get('username')
-        email = form.cleaned_data.get('email')
-        if not form.is_valid():
-            print("FORM INVALID register")
-            print(form.errors,form)
+            password = form.cleaned_data.get('password1')
+            confirm_password = form.cleaned_data.get('password2')
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
         
-
-        try:
+            print("FORM VALID register")
             # Check if passwords match
             if password != confirm_password:
                 print(password,confirm_password)
@@ -71,11 +64,13 @@ def register(request):
                 return render(request, 'index.html')
             else:
                 print('pass true')
+                pas = True
             # Check if username already exists
             if User.objects.filter(username=username).exists():
                 messages.error(request, "Username already exists!")
                 return render(request, 'index.html')
             else:
+                user = True
                 print("username true")
             # Check if email already exists
             if User.objects.filter(email=email).exists():
@@ -83,9 +78,20 @@ def register(request):
                 return render(request, 'index.html')
             else:
                 print('email true')
-        except:  
+                email = True
+            if email == True and user == True and pas == True:
+                print("FORM SAVED")
+                form.save()
+                
+                return redirect('login')
+            
+        else:  
             print(' ____$$$ Error At Checking REG_FORM $$$____ ')     
-
+            if not form.is_valid():
+                print("FORM INVALID register")
+                print(form.errors,form)
+            
+       
         print("POST METHON KELDI REGISTER ")
     else:
         print("POST METHOD KELMADI REGISTER")
@@ -95,6 +101,7 @@ def login(request):
     if request.method == "POST":
         print("POST METHON KELDI login ")
         form = LoginForm(request.POST)
+        print(form)
         if form.is_valid():
             print("FORM VALID login")
             print(form.cleaned_data)
